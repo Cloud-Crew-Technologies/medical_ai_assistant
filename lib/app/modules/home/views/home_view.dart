@@ -23,6 +23,9 @@ class HomeView extends GetView<HomeController> {
               children: [
                 // Status bar area
                 const SizedBox(height: 20),
+                SizedBox(
+                  height: 20,
+                ),
 
                 // Voice Recognition indicator
                 Center(child: _buildVoiceRecognitionIndicator()),
