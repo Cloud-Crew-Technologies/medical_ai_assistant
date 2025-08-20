@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "325382904467",
+    "project_id": "medical-assistant-070304",
+    "storage_bucket": "medical-assistant-070304.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:325382904467:android:c8a7f7f14d58ee11c70b66",
+        "android_client_info": {
+          "package_name": "com.example.medical_ai_assistant"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAj353OtOVh6TOSlCoaWg9_-pmZwPqCJXs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
