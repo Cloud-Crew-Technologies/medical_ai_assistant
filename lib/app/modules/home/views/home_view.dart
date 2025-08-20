@@ -23,9 +23,6 @@ class HomeView extends GetView<HomeController> {
               children: [
                 // Status bar area
                 const SizedBox(height: 20),
-                SizedBox(
-                  height: 20,
-                ),
 
                 // Voice Recognition indicator
                 Center(child: _buildVoiceRecognitionIndicator()),
@@ -34,6 +31,16 @@ class HomeView extends GetView<HomeController> {
 
                 // Main text content
                 _buildMainText(),
+
+                const Spacer(),
+
+                // AI Response display
+                _buildAIResponse(),
+
+                const Spacer(),
+
+                // User Question display
+                _buildUserQuestion(),
 
                 const Spacer(),
 
@@ -89,15 +96,20 @@ class HomeView extends GetView<HomeController> {
                     right: 0,
                     child: Center(
                       child: _buildControlButton(
-                        icon: controller.isCameraActive.value
-                            ? Icons.camera_alt
+                        icon: controller.isVoiceRecognitionActive.value
+                            ? Icons.stop
                             : Icons.mic,
-                        onPressed: controller.toggleCamera,
+                        onPressed: controller.toggleVoiceRecognition,
                         isActive: true,
                         isMain: true,
                       ),
                     ),
                   )
+                : const SizedBox.shrink()),
+
+            // Processing indicator
+            Obx(() => controller.isProcessing.value
+                ? _buildProcessingIndicator()
                 : const SizedBox.shrink()),
           ],
         ),
@@ -131,7 +143,7 @@ class HomeView extends GetView<HomeController> {
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
           decoration: BoxDecoration(
             color: controller.isVoiceRecognitionActive.value
-                ? kCardColor
+                ? kGlowingTealColor
                 : kDarkSlateButtonColor.withOpacity(0.5),
             borderRadius: BorderRadius.circular(20),
           ),
@@ -143,14 +155,16 @@ class HomeView extends GetView<HomeController> {
                 height: 8,
                 decoration: BoxDecoration(
                   color: controller.isVoiceRecognitionActive.value
-                      ? kCardColor
+                      ? kWhiteTextColor
                       : kFontColor,
                   shape: BoxShape.circle,
                 ),
               ),
               const SizedBox(width: 8),
               Text(
-                'Voice Recognition',
+                controller.isVoiceRecognitionActive.value
+                    ? 'Listening...'
+                    : 'Voice Recognition',
                 style: TextStyle(
                   color: kWhiteTextColor,
                   fontSize: 12,
@@ -187,6 +201,151 @@ class HomeView extends GetView<HomeController> {
             textAlign: TextAlign.center,
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildAIResponse() {
+    return Obx(() {
+      if (controller.aiResponse.value.isEmpty) {
+        return const SizedBox.shrink();
+      }
+
+      return Container(
+        margin: const EdgeInsets.symmetric(horizontal: 20),
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: kCardColor,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(
+            color: kGlowingTealColor.withOpacity(0.3),
+            width: 1,
+          ),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Icon(
+                  Icons.smart_toy,
+                  color: kGlowingTealColor,
+                  size: 20,
+                ),
+                const SizedBox(width: 8),
+                Text(
+                  'AI Response',
+                  style: TextStyle(
+                    color: kGlowingTealColor,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                const Spacer(),
+                if (controller.isSpeaking.value)
+                  Icon(
+                    Icons.volume_up,
+                    color: kGlowingTealColor,
+                    size: 16,
+                  ),
+              ],
+            ),
+            const SizedBox(height: 8),
+            Text(
+              controller.aiResponse.value,
+              style: TextStyle(
+                color: kWhiteTextColor,
+                fontSize: 16,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+          ],
+        ),
+      );
+    });
+  }
+
+  Widget _buildUserQuestion() {
+    return Obx(() {
+      if (controller.userQuestion.value.isEmpty) {
+        return const SizedBox.shrink();
+      }
+
+      return Container(
+        margin: const EdgeInsets.symmetric(horizontal: 20),
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: kDarkSlateButtonColor,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(
+            color: kFontColor.withOpacity(0.3),
+            width: 1,
+          ),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Icon(
+                  Icons.mic,
+                  color: kFontColor,
+                  size: 20,
+                ),
+                const SizedBox(width: 8),
+                Text(
+                  'Your Question',
+                  style: TextStyle(
+                    color: kFontColor,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 8),
+            Text(
+              controller.userQuestion.value,
+              style: TextStyle(
+                color: kWhiteTextColor,
+                fontSize: 16,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+          ],
+        ),
+      );
+    });
+  }
+
+  Widget _buildProcessingIndicator() {
+    return Container(
+      color: Colors.black.withOpacity(0.7),
+      child: Center(
+        child: Container(
+          padding: const EdgeInsets.all(20),
+          decoration: BoxDecoration(
+            color: kCardColor,
+            borderRadius: BorderRadius.circular(16),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation<Color>(kGlowingTealColor),
+              ),
+              const SizedBox(height: 16),
+              Text(
+                'Processing...',
+                style: TextStyle(
+                  color: kWhiteTextColor,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
