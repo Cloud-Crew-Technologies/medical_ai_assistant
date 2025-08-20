@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medical_ai_assistant/app/modules/Health_metrics_Screen/controllers/Health_metrics_controller.dart';
+import 'package:medical_ai_assistant/app/routes/app_pages.dart';
 import 'package:medical_ai_assistant/app/theme/theme_data.dart';
-
 
 class HealthMetricsView extends GetView<HealthMetricsController> {
   const HealthMetricsView({Key? key}) : super(key: key);
@@ -31,7 +31,6 @@ class HealthMetricsView extends GetView<HealthMetricsController> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -44,11 +43,12 @@ class HealthMetricsView extends GetView<HealthMetricsController> {
                               const SizedBox(width: 10),
                               Text(
                                 "Morning, Holo! 👋",
-                                style: theme.textTheme.bodyLarge?.copyWith(color: Colors.white),
+                                style: theme.textTheme.bodyLarge
+                                    ?.copyWith(color: Colors.white),
                               ),
                             ],
                           ),
-                          // Notification 
+                          // Notification
                           Container(
                             padding: const EdgeInsets.all(8),
                             decoration: const BoxDecoration(
@@ -57,38 +57,40 @@ class HealthMetricsView extends GetView<HealthMetricsController> {
                             ),
                             child: Icon(
                               Icons.notifications_none,
-                              color: isDark ? kPrimaryColor : kLightPrimaryColor,
+                              color:
+                                  isDark ? kPrimaryColor : kLightPrimaryColor,
                             ),
                           ),
                         ],
                       ),
                       const SizedBox(height: 12),
-                      //  Search Field 
-                      
-                       Container(
-                          width: double.infinity,
-                          
-                              //padding: const EdgeInsets.symmetric(vertical: 4),
-                              decoration: BoxDecoration(
-                                color: Colors.white.withOpacity(0.15),
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              child: Row(
-                                children: [
-                                  
-                                  Expanded(
-                                    child: TextField(
-                                          style: theme.textTheme.bodyMedium, // Text color from theme
-                                          decoration: InputDecoration(
-                                          hintText: "Search anything...",
-                                          hintStyle: theme.inputDecorationTheme.hintStyle, // From theme file
-                                          prefixIcon: const Icon(Icons.search),
-                                     ),
-                                    ),
-                                  ),
-                                ],
+                      //  Search Field
+
+                      Container(
+                        width: double.infinity,
+
+                        //padding: const EdgeInsets.symmetric(vertical: 4),
+                        decoration: BoxDecoration(
+                          color: Colors.white.withOpacity(0.15),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: TextField(
+                                style: theme.textTheme
+                                    .bodyMedium, // Text color from theme
+                                decoration: InputDecoration(
+                                  hintText: "Search anything...",
+                                  hintStyle: theme.inputDecorationTheme
+                                      .hintStyle, // From theme file
+                                  prefixIcon: const Icon(Icons.search),
+                                ),
                               ),
                             ),
+                          ],
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -104,7 +106,10 @@ class HealthMetricsView extends GetView<HealthMetricsController> {
                       onPressed: () {},
                       child: Text(
                         "See All",
-                        style: TextStyle(color: isDark ? kGlowingTealColor : kLightTextButtonColor),
+                        style: TextStyle(
+                            color: isDark
+                                ? kGlowingTealColor
+                                : kLightTextButtonColor),
                       ),
                     ),
                   ],
@@ -129,10 +134,15 @@ class HealthMetricsView extends GetView<HealthMetricsController> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(metric.title, style: const TextStyle(color: Colors.white, fontSize: 14)),
+                            Text(metric.title,
+                                style: const TextStyle(
+                                    color: Colors.white, fontSize: 14)),
                             const Spacer(),
                             Text("${metric.value} ${metric.unit}",
-                                style: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold)),
+                                style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold)),
                           ],
                         ),
                       );
@@ -153,41 +163,53 @@ class HealthMetricsView extends GetView<HealthMetricsController> {
                   itemCount: controller.consultations.length,
                   itemBuilder: (context, index) {
                     final consult = controller.consultations[index];
-                    return Container(
-                      margin: const EdgeInsets.only(bottom: 12),
-                      padding: const EdgeInsets.all(12),
-                      decoration: BoxDecoration(
-                        color: isDark ? kSecondaryColor : kLightCardColor,
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      child: Row(
-                        children: [
-                          const CircleAvatar(
-                            radius: 25,
-                            //backgroundImage: AssetImage('assets/doctor.jpg'),
-                          ),
-                          const SizedBox(width: 12),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(consult.doctorName, style: theme.textTheme.bodyLarge),
-                                Text(consult.specialty, style: theme.textTheme.titleSmall),
-                                Text(consult.time,
-                                    style: TextStyle(
-                                        color: isDark ? kGlowingTealColor : kLightPrimaryColor, fontSize: 12)),
-                              ],
+                    return GestureDetector(
+                      onTap: () {
+                        Get.toNamed(Routes.HOME, arguments: consult);
+                      },
+                      child: Container(
+                        margin: const EdgeInsets.only(bottom: 12),
+                        padding: const EdgeInsets.all(12),
+                        decoration: BoxDecoration(
+                          color: isDark ? kSecondaryColor : kLightCardColor,
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                        child: Row(
+                          children: [
+                            const CircleAvatar(
+                              radius: 25,
+                              //backgroundImage: AssetImage('assets/doctor.jpg'),
                             ),
-                          ),
-                          Container(
-                            padding: const EdgeInsets.all(6),
-                            decoration: BoxDecoration(
-                              color: isDark ? kPrimaryColor : kLightPrimaryColor,
-                              borderRadius: BorderRadius.circular(8),
+                            const SizedBox(width: 12),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(consult.doctorName,
+                                      style: theme.textTheme.bodyLarge),
+                                  Text(consult.specialty,
+                                      style: theme.textTheme.titleSmall),
+                                  Text(consult.time,
+                                      style: TextStyle(
+                                          color: isDark
+                                              ? kGlowingTealColor
+                                              : kLightPrimaryColor,
+                                          fontSize: 12)),
+                                ],
+                              ),
                             ),
-                            child: Text("${consult.rating} ★", style: const TextStyle(color: Colors.white)),
-                          ),
-                        ],
+                            Container(
+                              padding: const EdgeInsets.all(6),
+                              decoration: BoxDecoration(
+                                color:
+                                    isDark ? kPrimaryColor : kLightPrimaryColor,
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: Text("${consult.rating} ★",
+                                  style: const TextStyle(color: Colors.white)),
+                            ),
+                          ],
+                        ),
                       ),
                     );
                   },
@@ -203,16 +225,21 @@ class HealthMetricsView extends GetView<HealthMetricsController> {
         type: BottomNavigationBarType.fixed,
         currentIndex: 0,
         selectedItemColor: isDark ? kPrimaryColor : kLightPrimaryColor,
-        unselectedItemColor:isDark ? kPrimaryColor : kLightPrimaryColor,
+        unselectedItemColor: isDark ? kPrimaryColor : kLightPrimaryColor,
         onTap: (index) {
           // Handle bottom nav tap
         },
         items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home_outlined), label: "Home"),
-          BottomNavigationBarItem(icon: Icon(Icons.chat_bubble_outline), label: "Chat"),
-          BottomNavigationBarItem(icon: Icon(Icons.add_circle_outline), label: "Add"),
-          BottomNavigationBarItem(icon: Icon(Icons.notifications_none), label: "Alerts"),
-          BottomNavigationBarItem(icon: Icon(Icons.person_outline), label: "Profile"),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.home_outlined), label: "Home"),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.chat_bubble_outline), label: "Chat"),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.add_circle_outline), label: "Add"),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.notifications_none), label: "Alerts"),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.person_outline), label: "Profile"),
         ],
       ),
     );
