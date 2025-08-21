@@ -227,7 +227,15 @@ class HealthMetricsView extends GetView<HealthMetricsController> {
         selectedItemColor: isDark ? kPrimaryColor : kLightPrimaryColor,
         unselectedItemColor: isDark ? kPrimaryColor : kLightPrimaryColor,
         onTap: (index) {
-          // Handle bottom nav tap
+          switch (index) {
+            case 0:
+              Get.toNamed(Routes.HEALTH_METRICS);
+              break;
+            case 1:
+              Get.toNamed(Routes.CHAT_SCREEN);
+              break;
+          }
+
         },
         items: const [
           BottomNavigationBarItem(
