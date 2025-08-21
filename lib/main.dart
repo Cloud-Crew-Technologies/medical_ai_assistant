@@ -22,6 +22,7 @@ void main() async {
       getPages: AppPages.routes,
       theme: lightMode,
       darkTheme: darkMode,
+      debugShowCheckedModeBanner: false,
     ),
   );
 }
