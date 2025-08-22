@@ -17,57 +17,75 @@ class ChatScreenView extends GetView<ChatController> {
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
       appBar: PreferredSize(
-  preferredSize: const Size.fromHeight(80),
-  child: ClipRRect(
-    borderRadius: const BorderRadius.only(
-      bottomLeft: Radius.circular(35),
-      bottomRight: Radius.circular(35),
-    ),
-    child: AppBar(
-      leading: IconButton(   
-        icon: const Icon(
-          Icons.arrow_back_ios_new, 
-          size: 20,
-        ),
-        onPressed: () {
-          Navigator.pop(context); // Navigate back
-        },
-      ),
-      title: ShaderMask(
-        shaderCallback: (bounds) => LinearGradient(
-          colors: [
-            Colors.white,
-            Colors.lightBlueAccent,
-            Colors.deepPurpleAccent,
-          ],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ).createShader(bounds),
-        child: Text(
-          'AI Medical Assistant',
-          style: GoogleFonts.orbitron(
-            fontSize: 22,
-            fontWeight: FontWeight.bold,
-            letterSpacing: 1.5,
-            color: Colors.white,
+        preferredSize: const Size.fromHeight(100),
+        child: ClipRRect(
+          borderRadius: const BorderRadius.only(
+            bottomLeft: Radius.circular(35),
+            bottomRight: Radius.circular(35),
+          ),
+          child: AppBar(
+            backgroundColor:
+                isDark ? const Color(0xFF1E293A) : kLightPrimaryColor,
+            elevation: 5,
+            toolbarHeight: 100,
+            titleSpacing: 0,
+            centerTitle: false,
+            leadingWidth: 100, // Make room for text + chevron
+            leading: Container(
+              margin: const EdgeInsets.all(24),
+              decoration: BoxDecoration(
+                color: isDark ? const Color(0xFF384050) : kButtonColor,
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: IconButton(
+                icon: Icon(
+                  Icons.arrow_back_ios_new,
+                  color: isDark ? Colors.white : Colors.black,
+                  size: 20,
+                ),
+                onPressed: () => Navigator.pop(context),
+              ),
+            ),
+            title: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  "Dr. John Doe AI",
+                  style: GoogleFonts.inter(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    letterSpacing: 1.2,
+                    color: Colors.white.withOpacity(0.7), // solid color
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Obx(() => Text(
+                      "${controller.messages.length} Conversations • Online",
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: isDark ? Colors.white70 : Colors.black54,
+                      ),
+                    )),
+              ],
+            ),
+            actions: [
+              Container(
+                margin: const EdgeInsets.all(24),
+                decoration: BoxDecoration(
+                  color: isDark ? const Color(0xFF384050) : kButtonColor,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: IconButton(
+                  icon: Icon(Icons.message,
+                      color: isDark ? Colors.white : Colors.black),
+                  onPressed: () {},
+                ),
+              ),
+            ],
           ),
         ),
       ),
-      backgroundColor: isDark ? kPrimaryColor : kLightPrimaryColor,
-      foregroundColor: isDark ? Colors.white : Colors.black,
-      elevation: 4,
-      centerTitle: true,
-      actions: [
-        IconButton(
-          icon: const Icon(Icons.more_vert),
-          onPressed: () {},
-        ),
-      ],
-    ),
-  ),
-),
-
-
       body: Column(
         children: [
           // Chat messages list
@@ -90,9 +108,9 @@ class ChatScreenView extends GetView<ChatController> {
             padding: const EdgeInsets.all(25),
             decoration: BoxDecoration(
               color:
-                  isDark ? kPrimaryColor.withOpacity(0.7) : kLightPrimaryColor,
+                  isDark ? const Color(0xFF1E293A) : kLightPrimaryColor,
               border: Border(
-                top: BorderSide(color: Colors.grey[300]!),
+                top: BorderSide(color: const Color(0xFF384050)),
               ),
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(35),
@@ -112,7 +130,7 @@ class ChatScreenView extends GetView<ChatController> {
                       ),
                       filled: true,
                       fillColor:
-                          isDark ? kDarkBackgroundColor : kLightSecondaryColor,
+                          isDark ? const Color(0xFF020617) : kLightSecondaryColor,
                       contentPadding: const EdgeInsets.symmetric(
                         horizontal: 14,
                         vertical: 20,
@@ -124,7 +142,7 @@ class ChatScreenView extends GetView<ChatController> {
                 const SizedBox(width: 8),
                 Container(
                   decoration: BoxDecoration(
-                    color: isDark ? kDarkSlateButtonColor : kLightCardColor,
+                    color: isDark ? const Color(0xFF384050) : kLightCardColor,
                     borderRadius: BorderRadius.circular(isDark ? 16 : 12),
                     boxShadow: isDark
                         ? [
@@ -202,8 +220,8 @@ class ChatBubble extends StatelessWidget {
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
                 color: message.isMe
-                    ? kPrimaryColor
-                    : (isDark ? Colors.grey[800] : kLightCardColor),
+                    ? const Color(0xFF13B7A5)
+                    : (isDark ? const Color(0xFF1E293B) : kLightCardColor),
                 borderRadius: BorderRadius.circular(16).copyWith(
                   bottomLeft:
                       message.isMe ? const Radius.circular(16) : Radius.zero,
